@@ -1,0 +1,112 @@
+[gd_scene load_steps=13 format=3 uid="uid://d4cuub64yy18l"]
+
+[ext_resource type="Texture2D" uid="uid://cpvly47u2fqd1" path="res://GoL_Atlas.png" id="1_f7ase"]
+[ext_resource type="Script" path="res://main.gd" id="1_t6upq"]
+[ext_resource type="AudioStream" uid="uid://cwrx010fk44cf" path="res://audio/c3.mp3" id="2_8spv5"]
+[ext_resource type="AudioStream" uid="uid://ctrwxht53egrm" path="res://audio/d3.mp3" id="3_lpbby"]
+[ext_resource type="AudioStream" uid="uid://vyjbkgibg8o" path="res://audio/e3.mp3" id="4_0acm8"]
+[ext_resource type="AudioStream" uid="uid://chr6ik4050qbi" path="res://audio/f3.mp3" id="5_vxml4"]
+[ext_resource type="AudioStream" uid="uid://rbc5vp7orxp6" path="res://audio/g3.mp3" id="6_fepb1"]
+[ext_resource type="AudioStream" uid="uid://cva2jcpd6blha" path="res://audio/a3.mp3" id="7_lkd2x"]
+[ext_resource type="AudioStream" uid="uid://c8x7cv1u4lf6n" path="res://audio/b3.mp3" id="8_o2n6y"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k20uu"]
+texture = ExtResource("1_f7ase")
+0:0/0 = 0
+1:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_qln77"]
+sources/0 = SubResource("TileSetAtlasSource_k20uu")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kuou4"]
+
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("tilemap", "clickArea", "timer", "soundFirst", "soundSecond", "soundThird", "beatTimer")]
+script = ExtResource("1_t6upq")
+notes = [ExtResource("2_8spv5"), ExtResource("3_lpbby"), ExtResource("4_0acm8"), ExtResource("5_vxml4"), ExtResource("6_fepb1"), ExtResource("7_lkd2x"), ExtResource("8_o2n6y")]
+tilemap = NodePath("TileMap")
+gameHeight = 50
+gameWidth = 50
+clickArea = NodePath("Area2D/CollisionShape2D")
+timer = NodePath("Timer")
+soundFirst = NodePath("soundFirst")
+soundSecond = NodePath("soundSecond")
+soundThird = NodePath("soundThird")
+beatTimer = NodePath("BeatTimer")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_qln77")
+format = 2
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_kuou4")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 822.0
+offset_right = 832.0
+offset_bottom = 867.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="btnPlay" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Play"
+
+[node name="btnStop" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Stop"
+
+[node name="btnStep" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Step"
+
+[node name="btnReset" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Reset"
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Speed:"
+
+[node name="txtSpeed" type="LineEdit" parent="HBoxContainer"]
+layout_mode = 2
+text = "0.3"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.3
+
+[node name="soundFirst" type="AudioStreamPlayer" parent="."]
+autoplay = true
+max_polyphony = 2
+
+[node name="soundSecond" type="AudioStreamPlayer" parent="."]
+autoplay = true
+max_polyphony = 2
+
+[node name="soundThird" type="AudioStreamPlayer" parent="."]
+autoplay = true
+
+[node name="NoteTimer" type="Timer" parent="."]
+wait_time = 0.01
+autostart = true
+
+[node name="BeatTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
+[connection signal="pressed" from="HBoxContainer/btnPlay" to="." method="_on_btn_play_pressed"]
+[connection signal="pressed" from="HBoxContainer/btnStop" to="." method="_on_btn_stop_pressed"]
+[connection signal="pressed" from="HBoxContainer/btnStep" to="." method="_on_btn_step_pressed"]
+[connection signal="pressed" from="HBoxContainer/btnReset" to="." method="_on_btn_reset_pressed"]
+[connection signal="text_changed" from="HBoxContainer/txtSpeed" to="." method="_on_txt_speed_text_changed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="NoteTimer" to="." method="_on_note_timer_timeout"]
+[connection signal="timeout" from="BeatTimer" to="." method="_on_beat_timer_timeout"]
