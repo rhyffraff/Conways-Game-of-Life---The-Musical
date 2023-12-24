@@ -2,7 +2,7 @@
 A Godot project that uses Conway's Game of Life to generate terrible, terrible music.
 
 This project takes the basic rules of "Conway's Game of Life" and adds an extra ruleset over the top.
-If a cell is alive, it is eligable to play a note on the piano. The note it plays is determined by how many "living" neighbours it has.
+If a cell is alive, it is eligible to play a note on the piano. The note it plays is determined by how many "living" neighbours it has.
 any amount of neighbours between 1 and 7 lets the cell try to play a note, but it won't always get to play it.
 There are 3 audio emitters in the project, so if one is already playing a note, it will try the second, then the third.
 
